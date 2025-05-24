@@ -1,11 +1,33 @@
+import 'package:currency_converter/core/secrets/app_secrets.dart';
+import 'package:currency_converter/features/auth/data/data_source/remote/auth_remote.dart';
+import 'package:currency_converter/features/auth/data/repository_impl/auth_repository_impl.dart';
+import 'package:currency_converter/features/auth/domain/use_case/sign_up_usecase.dart';
+import 'package:currency_converter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:currency_converter/features/auth/presentation/pages/sign_in_page.dart';
-import 'package:currency_converter/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:currency_converter/core/theme/app_theme.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final supaBase = await Supabase.initialize(
+    url: AppSecrets.supabaseUrl,
+    anonKey: AppSecrets.supabaseAnonKey,
+  );
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider<AuthBloc>(
+        create: (context) => AuthBloc(
+          signUpUseCase: SignUpUsecase(AuthRepositoryImpl(
+            AuthRemoteDataSourceImpl(supaBase.client)
+            ),
+          ),
+        ),
+      ),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,54 +40,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: AppTheme.darkTheme,
       home:  SignInPage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-      if (kDebugMode) {
-        print('Counter incremented to $_counter');
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

@@ -2,13 +2,13 @@ import 'package:currency_converter/core/error/failure.dart';
 import 'package:fpdart/fpdart.dart';
 
 abstract interface class AuthRepository {
-  Either<Failure,String> signInWithEmailAndPassword({
-    required String name,
+  Future<Either<Failure,String>> signInWithEmailAndPassword({
     required String email,
     required String password,
   });
 
-  Either<Failure,String> signUpWithEmailAndPassword({
+  Future<Either<Failure,String>> signUpWithEmailAndPassword({
+    required String name,
     required String email,
     required String password,
   });

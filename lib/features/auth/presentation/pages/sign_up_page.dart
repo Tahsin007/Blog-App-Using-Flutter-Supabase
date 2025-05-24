@@ -1,3 +1,4 @@
+import 'package:currency_converter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:currency_converter/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:currency_converter/features/auth/presentation/widgets/auth_button.dart';
 import 'package:currency_converter/features/auth/presentation/widgets/auth_field.dart';
@@ -6,6 +7,7 @@ import 'package:currency_converter/core/theme/app_pallete.dart';
 import 'package:currency_converter/core/theme/app_textstyles.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatefulWidget {
   static route() => MaterialPageRoute(builder: (context) => const SignUpPage());
@@ -66,8 +68,14 @@ class _SignUpPageState extends State<SignUpPage> {
                 AuthButton(
                   onPressed: () {
                     if (formState.currentState!.validate()) {
-                      // Handle sign up logic
-                      print('Sign Up');
+                      context.read<AuthBloc>().add(
+                        AuthSignUp(
+                          name: nameController.text.trim(),
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim(),
+                        ),
+                      );
+                      // print('Sign Up');
                     } else {
                       // Handle validation error
                       print('Validation Error');
