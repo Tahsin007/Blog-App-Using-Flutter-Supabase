@@ -5,29 +5,25 @@ import 'package:currency_converter/features/auth/domain/use_case/sign_up_usecase
 import 'package:currency_converter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:currency_converter/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:currency_converter/core/theme/app_theme.dart';
+import 'package:currency_converter/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final supaBase = await Supabase.initialize(
-    url: AppSecrets.supabaseUrl,
-    anonKey: AppSecrets.supabaseAnonKey,
-  );
-  runApp(MultiBlocProvider(
-    providers: [
-      BlocProvider<AuthBloc>(
-        create: (context) => AuthBloc(
-          signUpUseCase: SignUpUsecase(AuthRepositoryImpl(
-            AuthRemoteDataSourceImpl(supaBase.client)
-            ),
-          ),
+  await initDependencies();
+
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create:
+              (context) => serviceLocator<AuthBloc>()
         ),
-      ),
-    ],
-    child: const MyApp(),
-  ));
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -39,7 +35,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme.darkTheme,
-      home:  SignInPage(),
+      home: SignInPage(),
     );
   }
 }
