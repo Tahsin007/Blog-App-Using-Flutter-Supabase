@@ -1,8 +1,9 @@
 import 'package:currency_converter/core/error/exceptions.dart';
+import 'package:currency_converter/features/auth/data/model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
-  Future<String> signUpWithEmailPassword({
+  Future<UserModel> signUpWithEmailPassword({
     required String name,
     required String email,
     required password,
@@ -27,7 +28,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<String> signUpWithEmailPassword({
+  Future<UserModel> signUpWithEmailPassword({
     required String name,
     required String email,
     required password,
@@ -42,7 +43,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw ServerException("User is null, sign up failed");
       }
 
-      return response.user?.id ?? '';
+      return UserModel.fromJson(response.user!.toJson());
     } catch (e) {
       throw ServerException('Failed to sign up: ${e.toString()}');
     }

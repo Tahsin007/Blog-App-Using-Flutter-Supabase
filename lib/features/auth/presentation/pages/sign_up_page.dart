@@ -1,3 +1,5 @@
+import 'package:currency_converter/core/common/widgets/loader.dart';
+import 'package:currency_converter/core/utils/snack_bar.dart';
 import 'package:currency_converter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:currency_converter/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:currency_converter/features/auth/presentation/widgets/auth_button.dart';
@@ -28,96 +30,109 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Center(
       child: Material(
-        child: Form(
-          key: formState,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              // mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                const SizedBox(height: 32),
-                Text("Sign Up", style: AppTextStyle.h1),
-                const SizedBox(height: 32),
-                AuthField(
-                  labelText: 'Name',
-                  hintText: 'Enter your name',
-                  keyboardType: TextInputType.name,
-                  validationMessage: 'Please enter your name',
-                  controller: nameController,
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            if (state is AuthFailure) {
+              showSnackBar(message: "Sign Up Failed", context: context);
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return AppLoader();
+            }
+            return Form(
+              key: formState,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const SizedBox(height: 32),
+                    Text("Sign Up", style: AppTextStyle.h1),
+                    const SizedBox(height: 32),
+                    AuthField(
+                      labelText: 'Name',
+                      hintText: 'Enter your name',
+                      keyboardType: TextInputType.name,
+                      validationMessage: 'Please enter your name',
+                      controller: nameController,
+                    ),
+                    const SizedBox(height: 16),
+                    AuthField(
+                      labelText: 'Email',
+                      hintText: 'Enter your email',
+                      keyboardType: TextInputType.emailAddress,
+                      validationMessage: 'Please enter a valid email',
+                      controller: emailController,
+                    ),
+                    const SizedBox(height: 16),
+                    AuthField(
+                      labelText: 'Password',
+                      hintText: 'Enter your password',
+                      keyboardType: TextInputType.visiblePassword,
+                      validationMessage: 'Please enter a password',
+                      controller: passwordController,
+                      obscureText: true,
+                    ),
+                    const SizedBox(height: 16),
+                    AuthButton(
+                      onPressed: () {
+                        if (formState.currentState!.validate()) {
+                          context.read<AuthBloc>().add(
+                            AuthSignUp(
+                              name: nameController.text.trim(),
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim(),
+                            ),
+                          );
+                          if (kDebugMode) {
+                            print('Sign Up Successful');
+                          }
+                          // print('Sign Up');
+                        } else {
+                          // Handle validation error
+                          print('Validation Error');
+                        }
+                      },
+                      buttonText: 'Sign Up',
+                    ),
+                    const SizedBox(height: 16),
+                    AuthRichText(
+                      firstText: "Already Have An Account? ",
+                      secondText: "Sign In",
+                      ontap: () {
+                        Navigator.push(context, SignInPage.route());
+                      },
+                    ),
+                    // RichText(
+                    //   textAlign: TextAlign.center,
+                    //   text: TextSpan(
+                    //     text: "Already have an account? ",
+                    //     style: AppTextStyle.bodySmall,
+                    //     children: <TextSpan>[
+                    //       TextSpan(
+                    //         text: 'Login here',
+                    //         style: AppTextStyle.bodySmall.copyWith(
+                    //           color: AppPallete.primaryColor,
+                    //         ),
+                    //         recognizer:
+                    //             TapGestureRecognizer()
+                    //               ..onTap = () {
+                    //                 // Handle login tap
+                    //               },
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
                 ),
-                const SizedBox(height: 16),
-                AuthField(
-                  labelText: 'Email',
-                  hintText: 'Enter your email',
-                  keyboardType: TextInputType.emailAddress,
-                  validationMessage: 'Please enter a valid email',
-                  controller: emailController,
-                ),
-                const SizedBox(height: 16),
-                AuthField(
-                  labelText: 'Password',
-                  hintText: 'Enter your password',
-                  keyboardType: TextInputType.visiblePassword,
-                  validationMessage: 'Please enter a password',
-                  controller: passwordController,
-                  obscureText: true,
-                ),
-                const SizedBox(height: 16),
-                AuthButton(
-                  onPressed: () {
-                    if (formState.currentState!.validate()) {
-                      context.read<AuthBloc>().add(
-                        AuthSignUp(
-                          name: nameController.text.trim(),
-                          email: emailController.text.trim(),
-                          password: passwordController.text.trim(),
-                        ),
-                      );
-                      if(kDebugMode){
-                        print('Sign Up Successful');
-                      }
-                      // print('Sign Up');
-                    } else {
-                      // Handle validation error
-                      print('Validation Error');
-                    }
-                  },
-                  buttonText: 'Sign Up',
-                ),
-                const SizedBox(height: 16),
-                AuthRichText(
-                  firstText: "Already Have An Account? ",
-                  secondText: "Sign In",
-                  ontap: () {
-                    Navigator.push(context, SignInPage.route());
-                  },
-                ),
-                // RichText(
-                //   textAlign: TextAlign.center,
-                //   text: TextSpan(
-                //     text: "Already have an account? ",
-                //     style: AppTextStyle.bodySmall,
-                //     children: <TextSpan>[
-                //       TextSpan(
-                //         text: 'Login here',
-                //         style: AppTextStyle.bodySmall.copyWith(
-                //           color: AppPallete.primaryColor,
-                //         ),
-                //         recognizer:
-                //             TapGestureRecognizer()
-                //               ..onTap = () {
-                //                 // Handle login tap
-                //               },
-                //       ),
-                //     ],
-                //   ),
-                // ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

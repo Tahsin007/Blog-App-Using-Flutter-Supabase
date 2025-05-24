@@ -1,14 +1,15 @@
 import 'package:currency_converter/core/error/failure.dart';
 import 'package:currency_converter/core/usecase/use_case.dart';
+import 'package:currency_converter/features/auth/domain/entities/user_entity.dart';
 import 'package:currency_converter/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/src/either.dart';
 
-class SignUpUsecase implements UseCase<String, UserSignUpParams> {
+class SignUpUsecase implements UseCase<User, UserSignUpParams> {
   final AuthRepository authRepository;
   SignUpUsecase(this.authRepository);
 
   @override
-  Future<Either<Failure, String>> call(UserSignUpParams params) async {
+  Future<Either<Failure, User>> call(UserSignUpParams params) async {
     return await authRepository.signUpWithEmailAndPassword(
       name: params.name,
       email: params.email,

@@ -1,6 +1,7 @@
 import 'package:currency_converter/core/error/exceptions.dart';
 import 'package:currency_converter/core/error/failure.dart';
 import 'package:currency_converter/features/auth/data/data_source/remote/auth_remote.dart';
+import 'package:currency_converter/features/auth/domain/entities/user_entity.dart';
 import 'package:currency_converter/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -24,7 +25,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, String>> signInWithEmailAndPassword({
+  Future<Either<Failure, User>> signInWithEmailAndPassword({
     required String email,
     required String password,
   }) {
@@ -37,18 +38,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, String>> signUpWithEmailAndPassword({
+  Future<Either<Failure, User>> signUpWithEmailAndPassword({
     required String name,
     required String email,
     required String password,
   }) async {
     try {
-      final userId = authRemoteDataSource.signUpWithEmailPassword(
+      final userModel = await authRemoteDataSource.signUpWithEmailPassword(
         name: name,
         email: email,
         password: password,
       );
-      return right(userId.toString());
+      return right(userModel);
     }on ServerException catch(e) {
       return left(Failure(e.message));
     }
