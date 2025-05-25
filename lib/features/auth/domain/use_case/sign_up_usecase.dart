@@ -2,7 +2,7 @@ import 'package:currency_converter/core/error/failure.dart';
 import 'package:currency_converter/core/usecase/use_case.dart';
 import 'package:currency_converter/features/auth/domain/entities/user_entity.dart';
 import 'package:currency_converter/features/auth/domain/repository/auth_repository.dart';
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 
 class SignUpUsecase implements UseCase<User, UserSignUpParams> {
   final AuthRepository authRepository;

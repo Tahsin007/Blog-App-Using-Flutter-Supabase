@@ -28,19 +28,19 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Material(
+    return Scaffold(
+      body: Center(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            // TODO: implement listener
             if (state is AuthFailure) {
-              showSnackBar(message: "Sign Up Failed", context: context);
+              showSnackBar(message: "Sign Up Failed : ${state.message}", context: context);
+            } else if (state is AuthSuccess) {
+              showSnackBar(message: "Sign Up Successful, Welcome ${state.user.name}", context: context);
             }
           },
           builder: (context, state) {
-            if (state is AuthLoading) {
-              return AppLoader();
-            }
+            final isLoading = state is AuthLoading;
+
             return Form(
               key: formState,
               child: Padding(
@@ -99,6 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         }
                       },
                       buttonText: 'Sign Up',
+                      isLoading: isLoading,
                     ),
                     const SizedBox(height: 16),
                     AuthRichText(
