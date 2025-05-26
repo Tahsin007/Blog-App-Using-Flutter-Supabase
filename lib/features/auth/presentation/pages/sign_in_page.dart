@@ -32,7 +32,10 @@ class _SignInPageState extends State<SignInPage> {
                 context: context,
               );
             } else if (state is AuthFailure) {
-              showSnackBar(message: "Sign In Failed : ${state.message}", context: context);
+              showSnackBar(
+                message: "Sign In Failed : ${state.message}",
+                context: context,
+              );
             }
           },
           builder: (context, state) {

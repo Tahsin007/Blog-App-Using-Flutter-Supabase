@@ -1,4 +1,4 @@
-import 'package:currency_converter/features/auth/domain/entities/user_entity.dart';
+import 'package:currency_converter/core/common/entities/user_entity.dart';
 
 class UserModel extends User {
   UserModel({required super.id, required super.email, required super.name});

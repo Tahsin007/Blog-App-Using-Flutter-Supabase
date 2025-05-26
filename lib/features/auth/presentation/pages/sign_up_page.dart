@@ -1,11 +1,9 @@
-import 'package:currency_converter/core/common/widgets/loader.dart';
 import 'package:currency_converter/core/utils/snack_bar.dart';
 import 'package:currency_converter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:currency_converter/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:currency_converter/features/auth/presentation/widgets/auth_button.dart';
 import 'package:currency_converter/features/auth/presentation/widgets/auth_field.dart';
 import 'package:currency_converter/features/auth/presentation/widgets/rich_text.dart';
-import 'package:currency_converter/core/theme/app_pallete.dart';
 import 'package:currency_converter/core/theme/app_textstyles.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -109,26 +107,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         Navigator.push(context, SignInPage.route());
                       },
                     ),
-                    // RichText(
-                    //   textAlign: TextAlign.center,
-                    //   text: TextSpan(
-                    //     text: "Already have an account? ",
-                    //     style: AppTextStyle.bodySmall,
-                    //     children: <TextSpan>[
-                    //       TextSpan(
-                    //         text: 'Login here',
-                    //         style: AppTextStyle.bodySmall.copyWith(
-                    //           color: AppPallete.primaryColor,
-                    //         ),
-                    //         recognizer:
-                    //             TapGestureRecognizer()
-                    //               ..onTap = () {
-                    //                 // Handle login tap
-                    //               },
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),

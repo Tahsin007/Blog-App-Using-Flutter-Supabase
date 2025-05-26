@@ -1,10 +1,8 @@
-import 'package:currency_converter/core/secrets/app_secrets.dart';
-import 'package:currency_converter/features/auth/data/data_source/remote/auth_remote.dart';
-import 'package:currency_converter/features/auth/data/repository_impl/auth_repository_impl.dart';
-import 'package:currency_converter/features/auth/domain/use_case/sign_up_usecase.dart';
+import 'package:currency_converter/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:currency_converter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:currency_converter/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:currency_converter/core/theme/app_theme.dart';
+import 'package:currency_converter/features/auth/presentation/pages/splash_screen.dart';
 import 'package:currency_converter/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +14,10 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create:
+              (context) => serviceLocator<AppUserCubit>()
+        ),
         BlocProvider(
           create:
               (context) => serviceLocator<AuthBloc>()
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppTheme.darkTheme,
-      home: SignInPage(),
+      home: SplashScreen(),
     );
   }
 }

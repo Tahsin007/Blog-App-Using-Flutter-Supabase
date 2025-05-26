@@ -1,6 +1,6 @@
 import 'package:currency_converter/core/error/failure.dart';
 import 'package:currency_converter/core/usecase/use_case.dart';
-import 'package:currency_converter/features/auth/domain/entities/user_entity.dart';
+import 'package:currency_converter/core/common/entities/user_entity.dart';
 import 'package:currency_converter/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 

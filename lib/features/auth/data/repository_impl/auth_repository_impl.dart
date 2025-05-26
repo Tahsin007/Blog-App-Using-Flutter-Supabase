@@ -1,23 +1,15 @@
+import 'dart:ffi';
+
 import 'package:currency_converter/core/error/exceptions.dart';
 import 'package:currency_converter/core/error/failure.dart';
 import 'package:currency_converter/features/auth/data/data_source/remote/auth_remote.dart';
-import 'package:currency_converter/features/auth/domain/entities/user_entity.dart';
+import 'package:currency_converter/core/common/entities/user_entity.dart';
 import 'package:currency_converter/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource authRemoteDataSource;
   AuthRepositoryImpl(this.authRemoteDataSource);
-
-  @override
-  Future<String?> getCurrentUserEmail() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<String?> getCurrentUserId() {
-    throw UnimplementedError();
-  }
 
   @override
   Future<bool> isSignedIn() {
@@ -41,8 +33,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> signOut() {
-    throw UnimplementedError();
+  Future<Either<Failure,void>> signOut() async{
+    try {
+      await authRemoteDataSource.signOut();
+      return right(null);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
   }
 
   @override
@@ -58,7 +55,23 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
       return right(userModel);
-    }on ServerException catch(e) {
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> getCurrentUser() async {
+    try {
+      final userData = await authRemoteDataSource.getCurrentUser();
+      if (userData == null) {
+        print("User Not Logged In");
+        return left(Failure("User Not Logged in"));
+      }
+      print(userData.id);
+
+      return right(userData);
+    } on ServerException catch (e) {
       return left(Failure(e.message));
     }
   }
