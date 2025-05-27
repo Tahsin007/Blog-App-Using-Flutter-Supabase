@@ -1,4 +1,5 @@
 import 'package:currency_converter/core/theme/app_pallete.dart';
+import 'package:currency_converter/core/theme/app_textstyles.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -23,6 +24,29 @@ class AppTheme {
       backgroundColor: AppPallete.white,
       selectedItemColor: AppPallete.primaryColor,
       unselectedItemColor: Colors.grey,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: AppPallete.white,
+      contentPadding: const EdgeInsets.all(20),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.0),
+        borderSide: BorderSide(color: AppPallete.primaryColor, width: 1.0),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.0),
+        borderSide: BorderSide(color: AppPallete.primaryColor, width: 2.0),
+      ),
+    ),
+
+    chipTheme: ChipThemeData(
+      backgroundColor: AppPallete.backgroundColor,
+      selectedColor: AppPallete.primaryColor,
+      secondarySelectedColor: AppPallete.secondaryColor,
+      labelStyle: TextStyle(color: AppPallete.black),
+      secondaryLabelStyle: TextStyle(color: Colors.white70),
+      padding: EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
     ),
   );
 
@@ -56,10 +80,23 @@ class AppTheme {
       iconTheme: IconThemeData(color: Colors.white),
       elevation: 0,
     ),
+
+    //Central Bottom Navigation Bar Theme
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Colors.black,
       selectedItemColor: Colors.blueAccent,
       unselectedItemColor: Colors.grey,
+    ),
+
+    //Central Chip Theme
+    chipTheme: ChipThemeData(
+      // backgroundColor: AppPallete.backgroundColor,
+      selectedColor: AppPallete.primaryColor,
+      secondarySelectedColor: AppPallete.secondaryColor,
+      labelStyle: AppTextStyle.labelMedium.copyWith(color: AppPallete.white),
+      secondaryLabelStyle: TextStyle(color: Colors.white70),
+      padding: EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
     ),
   );
 }

@@ -1,0 +1,18 @@
+import 'package:flutter/material.dart';
+
+class BlogTextField extends StatelessWidget {
+  TextEditingController controller;
+  final String hintText;
+  BlogTextField({super.key,required this.controller,required this.hintText});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: hintText
+      ),
+      maxLines: null,
+    );
+  }
+}
