@@ -5,6 +5,7 @@ import 'package:currency_converter/features/auth/presentation/widgets/auth_butto
 import 'package:currency_converter/features/auth/presentation/widgets/auth_field.dart';
 import 'package:currency_converter/features/auth/presentation/widgets/rich_text.dart';
 import 'package:currency_converter/core/theme/app_textstyles.dart';
+import 'package:currency_converter/features/blog/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,6 +31,10 @@ class _SignInPageState extends State<SignInPage> {
               showSnackBar(
                 message: "Sign In Successful, Welcome ${state.user.name}",
                 context: context,
+              );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage(state.user)),
               );
             } else if (state is AuthFailure) {
               showSnackBar(
