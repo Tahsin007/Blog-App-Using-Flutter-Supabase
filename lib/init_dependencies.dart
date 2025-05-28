@@ -8,6 +8,12 @@ import 'package:currency_converter/features/auth/domain/use_case/sign_in_usecase
 import 'package:currency_converter/features/auth/domain/use_case/sign_out_usecase.dart';
 import 'package:currency_converter/features/auth/domain/use_case/sign_up_usecase.dart';
 import 'package:currency_converter/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:currency_converter/features/blog/data/data_source/blog_remote_datasource.dart';
+import 'package:currency_converter/features/blog/data/repository/blog_repository_impl.dart';
+import 'package:currency_converter/features/blog/domain/repository/blog_repository.dart';
+import 'package:currency_converter/features/blog/domain/use_case/get_all_blogs_usecase.dart';
+import 'package:currency_converter/features/blog/domain/use_case/upload_blog_usecase.dart';
+import 'package:currency_converter/features/blog/presentation/bloc/blog_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -20,6 +26,7 @@ Future<void> initDependencies() async {
   );
   serviceLocator.registerLazySingleton(() => supaBase.client);
   _initAuth();
+  _initBlog();
 
   //core
   serviceLocator.registerLazySingleton(() => AppUserCubit());
@@ -50,4 +57,19 @@ void _initAuth() {
         serviceLocator(),
       ),
     );
+}
+
+void _initBlog() {
+  serviceLocator
+    ..registerFactory<BlogRemoteDataSource>(
+      () => BlogRemoteDatasourceImpl(serviceLocator()),
+    )
+    ..registerFactory<BlogRepository>(
+      () => BlogRepositoryImpl(serviceLocator()),
+    )
+    ..registerFactory<UploadBlogUsecase>(
+      () => UploadBlogUsecase(serviceLocator()),
+    )
+    ..registerFactory<GetAllBlogsUsecase>(() => GetAllBlogsUsecase(serviceLocator()))
+    ..registerLazySingleton<BlogBloc>(() => BlogBloc(serviceLocator(),serviceLocator()));
 }

@@ -6,7 +6,6 @@ import 'package:currency_converter/features/auth/presentation/widgets/auth_field
 import 'package:currency_converter/features/auth/presentation/widgets/rich_text.dart';
 import 'package:currency_converter/core/theme/app_textstyles.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

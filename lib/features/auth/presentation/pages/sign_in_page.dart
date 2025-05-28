@@ -34,7 +34,7 @@ class _SignInPageState extends State<SignInPage> {
               );
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => HomePage(state.user)),
+                MaterialPageRoute(builder: (context) => HomePage()),
               );
             } else if (state is AuthFailure) {
               showSnackBar(

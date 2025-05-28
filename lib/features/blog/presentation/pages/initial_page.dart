@@ -1,5 +1,4 @@
 import 'package:currency_converter/core/common/cubits/app_user/app_user_cubit.dart';
-import 'package:currency_converter/core/common/widgets/loader.dart';
 import 'package:currency_converter/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:currency_converter/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:currency_converter/features/blog/presentation/pages/home_page.dart';
@@ -27,8 +26,7 @@ class _InitialPageState extends State<InitialPage> {
         child: BlocBuilder<AppUserCubit, AppUserState>(
           builder: (context, state) {
             if (state is AppUserLoggedIn) {
-              final user = state.user;
-              return HomePage(user);
+              return HomePage();
             }
             return const SignInPage();
           },

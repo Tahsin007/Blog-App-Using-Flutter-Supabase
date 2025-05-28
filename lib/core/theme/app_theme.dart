@@ -37,6 +37,10 @@ class AppTheme {
         borderRadius: BorderRadius.circular(4.0),
         borderSide: BorderSide(color: AppPallete.primaryColor, width: 2.0),
       ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.0),
+        borderSide: BorderSide(color: AppPallete.errorColor, width: 1.0),
+      ),
     ),
 
     chipTheme: ChipThemeData(
@@ -65,6 +69,10 @@ class AppTheme {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(4.0),
         borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4.0),
+        borderSide: BorderSide(color: Colors.red, width: 1.0),
       ),
     ),
     colorScheme: ColorScheme.fromSeed(
